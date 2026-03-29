@@ -3,31 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>X-JSON // CYBER TOOL</title>
+  <title>X-JSON // TERMINAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
+    *, *::before, *::after {
       box-sizing: border-box;
     }
 
     :root {
-      --bg: #0a0a0f;
-      --panel: #0d0d18;
-      --border: #1a1a3a;
-      --neon-pink: #ff2d6a;
-      --neon-cyan: #00f5ff;
-      --neon-purple: #b829ff;
-      --neon-green: #39ff14;
-      --neon-yellow: #ffe600;
-      --text: #c8c8e8;
-      --dim: #5a5a7a;
+      --bg: #080c10;
+      --bg2: #0c1318;
+      --bg3: #101820;
+      --amber: #ffb347;
+      --amber-dim: #c4842a;
+      --amber-glow: rgba(255, 179, 71, 0.15);
+      --cyan: #00d4ff;
+      --cyan-dim: #0099bb;
+      --cyan-glow: rgba(0, 212, 255, 0.12);
+      --green: #39d353;
+      --green-dim: #1a7a32;
+      --red: #ff4757;
+      --dim: #3a4a5a;
+      --border: #1c2a38;
+      --text: #b8c5d0;
+      --text-bright: #e8f0f6;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -36,177 +47,172 @@
       overflow: hidden;
     }
 
-    /* Cyber grid background */
+    /* Subtle noise texture */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background:
-        linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px),
-        linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Scanline overlay */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.1) 2px,
-        rgba(0,0,0,0.1) 4px
-      );
-      pointer-events: none;
-      z-index: 9999;
-    }
-
+    /* ===== HEADER ===== */
     header {
       position: relative;
       z-index: 10;
-      background: linear-gradient(135deg, #0d0d18 0%, #1a0a2e 100%);
-      padding: 16px 28px;
-      border-bottom: 1px solid var(--neon-pink);
-      box-shadow: 0 0 20px rgba(255,45,106,0.3), inset 0 -1px 0 rgba(255,45,106,0.2);
+      background: var(--bg2);
+      border-bottom: 1px solid var(--amber-dim);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 2px 20px rgba(255, 179, 71, 0.06);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 28px;
+      height: 28px;
+      position: relative;
+    }
+
+    .logo-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .logo-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .logo-text span {
+      color: var(--dim);
+      font-weight: 400;
+    }
+
+    .header-meta {
+      margin-left: auto;
       display: flex;
       align-items: center;
       gap: 16px;
-    }
-
-    header::before {
-      content: '◆';
-      color: var(--neon-pink);
-      text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: none;
-    }
-
-    header .subtitle {
       font-size: 11px;
       color: var(--dim);
-      letter-spacing: 2px;
-      margin-left: auto;
+      letter-spacing: 1px;
     }
 
-    header .subtitle span {
-      color: var(--neon-cyan);
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 2px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--cyan);
     }
 
+    .badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+      animation: blink-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes blink-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ===== TOOLBAR ===== */
     .toolbar {
       position: relative;
       z-index: 10;
-      background: var(--panel);
+      background: var(--bg3);
+      border-bottom: 1px solid var(--border);
       padding: 10px 20px;
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
       align-items: center;
-      border-bottom: 1px solid var(--border);
+      gap: 6px;
     }
 
-    .toolbar button {
+    .toolbar-btn {
       position: relative;
       background: transparent;
-      color: var(--neon-cyan);
-      border: 1px solid var(--neon-cyan);
-      padding: 6px 16px;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 5px 14px;
       border-radius: 2px;
       cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      transition: all 0.2s;
-      overflow: hidden;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .toolbar button::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--neon-cyan);
-      opacity: 0;
-      transition: opacity 0.2s;
+    .toolbar-btn .icon {
+      font-size: 12px;
     }
 
-    .toolbar button:hover::before {
-      opacity: 0.15;
+    .toolbar-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      background: var(--amber-glow);
     }
 
-    .toolbar button:hover {
-      color: #fff;
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 10px rgba(0,245,255,0.4), 0 0 20px rgba(0,245,255,0.2);
-      text-shadow: 0 0 8px var(--neon-cyan);
-    }
-
-    .toolbar button:active {
+    .toolbar-btn:active {
       transform: scale(0.97);
     }
 
-    .toolbar button.btn-pink {
-      color: var(--neon-pink);
-      border-color: var(--neon-pink);
+    .toolbar-btn.primary {
+      border-color: var(--amber-dim);
+      color: var(--amber);
     }
 
-    .toolbar button.btn-pink::before {
-      background: var(--neon-pink);
+    .toolbar-btn.primary:hover {
+      border-color: var(--amber);
+      box-shadow: 0 0 12px var(--amber-glow), inset 0 0 8px var(--amber-glow);
     }
 
-    .toolbar button.btn-pink:hover {
-      box-shadow: 0 0 10px rgba(255,45,106,0.4), 0 0 20px rgba(255,45,106,0.2);
-      text-shadow: 0 0 8px var(--neon-pink);
+    .divider-v {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      margin: 0 4px;
     }
 
-    .toolbar button.btn-green {
-      color: var(--neon-green);
-      border-color: var(--neon-green);
-    }
+    .toolbar .spacer { flex: 1; }
 
-    .toolbar button.btn-green::before {
-      background: var(--neon-green);
-    }
-
-    .toolbar button.btn-green:hover {
-      box-shadow: 0 0 10px rgba(57,255,20,0.4), 0 0 20px rgba(57,255,20,0.2);
-      text-shadow: 0 0 8px var(--neon-green);
-    }
-
-    .toolbar .spacer {
-      flex: 1;
-    }
-
-    .toolbar .hint {
+    .toolbar-hint {
       font-size: 10px;
       color: var(--dim);
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
-    .toolbar .hint::before {
-      content: '// ';
-      color: var(--neon-purple);
+    .toolbar-hint .hl {
+      color: var(--amber-dim);
     }
 
+    /* ===== MAIN ===== */
     .main {
       position: relative;
       z-index: 1;
@@ -223,43 +229,49 @@
     }
 
     .panel-header {
-      padding: 8px 16px;
-      background: var(--panel);
-      font-size: 10px;
-      color: var(--neon-purple);
-      border-bottom: 1px solid var(--border);
-      letter-spacing: 2px;
-      text-transform: uppercase;
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    .panel-header::before {
-      content: '▸';
-      color: var(--neon-purple);
-      text-shadow: 0 0 5px var(--neon-purple);
-    }
-
-    .panel-header .size {
-      margin-left: auto;
+      padding: 8px 16px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--dim);
+    }
+
+    .panel-header .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--amber-dim);
+      font-weight: 600;
+    }
+
+    .panel-header .tag::before {
+      content: '//';
+      font-size: 9px;
+    }
+
+    .panel-header .size-tag {
+      margin-left: auto;
+      color: var(--cyan-dim);
       font-size: 9px;
     }
 
     textarea {
-      position: relative;
       flex: 1;
-      background: var(--panel);
-      color: var(--neon-green);
+      background: var(--bg);
+      color: var(--green);
       border: none;
-      padding: 16px;
-      font-family: 'JetBrains Mono', monospace;
+      padding: 20px;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 13px;
-      line-height: 1.7;
+      line-height: 1.8;
       resize: none;
       outline: none;
-      caret-color: var(--neon-cyan);
+      caret-color: var(--amber);
     }
 
     textarea::placeholder {
@@ -267,7 +279,7 @@
     }
 
     textarea::-webkit-scrollbar {
-      width: 6px;
+      width: 5px;
     }
 
     textarea::-webkit-scrollbar-track {
@@ -275,30 +287,46 @@
     }
 
     textarea::-webkit-scrollbar-thumb {
-      background: var(--neon-purple);
-      border-radius: 3px;
+      background: var(--border);
+      border-radius: 2px;
     }
 
-    .divider {
+    textarea::-webkit-scrollbar-thumb:hover {
+      background: var(--amber-dim);
+    }
+
+    .panel-divider {
       width: 1px;
-      background: linear-gradient(to bottom, var(--neon-pink), var(--neon-purple), var(--neon-cyan));
-      box-shadow: 0 0 8px rgba(184,41,255,0.3);
+      background: linear-gradient(to bottom, var(--amber-dim), var(--border), var(--cyan-dim));
+      position: relative;
+    }
+
+    .panel-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 7px;
+      height: 24px;
+      background: var(--bg2);
+      border: 1px solid var(--amber-dim);
+      border-radius: 2px;
     }
 
     #output {
-      position: relative;
+      flex: 1;
       background: var(--bg);
       overflow: auto;
       white-space: pre;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 13px;
-      line-height: 1.7;
-      padding: 16px;
-      flex: 1;
+      line-height: 1.8;
+      padding: 20px;
     }
 
     #output::-webkit-scrollbar {
-      width: 6px;
+      width: 5px;
     }
 
     #output::-webkit-scrollbar-track {
@@ -306,166 +334,237 @@
     }
 
     #output::-webkit-scrollbar-thumb {
-      background: var(--neon-purple);
-      border-radius: 3px;
-    }
-
-    .error {
-      color: var(--neon-pink);
-      padding: 16px;
-      font-size: 13px;
-      text-shadow: 0 0 5px rgba(255,45,106,0.5);
-    }
-
-    .error::before {
-      content: '[ERROR] ';
-      color: var(--neon-yellow);
-    }
-
-    /* JSON syntax colors - cyber */
-    .json-key { color: var(--neon-pink); text-shadow: 0 0 5px rgba(255,45,106,0.5); }
-    .json-string { color: var(--neon-green); text-shadow: 0 0 5px rgba(57,255,20,0.5); }
-    .json-number { color: var(--neon-yellow); text-shadow: 0 0 5px rgba(255,230,0,0.5); }
-    .json-boolean { color: var(--neon-cyan); text-shadow: 0 0 5px rgba(0,245,255,0.5); }
-    .json-null { color: var(--dim); }
-    .json-bracket { color: var(--text); }
-
-    /* Cursor blink effect */
-    @keyframes blink {
-      0%, 100% { border-color: var(--neon-cyan); }
-      50% { border-color: transparent; }
-    }
-
-    textarea:focus {
-      box-shadow: inset 0 0 30px rgba(0,245,255,0.05);
-    }
-
-    /* Toast notification */
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--panel);
-      border: 1px solid var(--neon-green);
-      color: var(--neon-green);
-      padding: 10px 24px;
+      background: var(--border);
       border-radius: 2px;
+    }
+
+    .json-error {
+      color: var(--red);
       font-size: 12px;
-      letter-spacing: 1px;
-      box-shadow: 0 0 20px rgba(57,255,20,0.3);
-      z-index: 10000;
-      transition: transform 0.3s ease;
+      padding: 20px;
+      line-height: 1.6;
     }
 
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
+    .json-error .err-label {
+      color: var(--amber);
+      font-weight: 700;
+      margin-right: 6px;
     }
 
-    /* Status bar */
+    /* JSON Syntax Colors */
+    .jk { color: var(--amber); }
+    .js { color: #a8e6cf; }
+    .jn { color: #79c0ff; }
+    .jb { color: var(--cyan); }
+    .jnull { color: var(--dim); }
+    .jp { color: var(--text); }
+
+    /* ===== STATUS BAR ===== */
     .status-bar {
       position: relative;
       z-index: 10;
-      background: var(--panel);
+      background: var(--bg2);
       border-top: 1px solid var(--border);
-      padding: 6px 16px;
+      padding: 6px 20px;
       font-size: 10px;
       color: var(--dim);
       letter-spacing: 1px;
       display: flex;
+      align-items: center;
       gap: 20px;
     }
 
-    .status-bar .item {
+    .s-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
-    .status-bar .dot {
-      width: 6px;
-      height: 6px;
+    .s-item .lbl {
+      color: var(--dim);
+    }
+
+    .s-item .val {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .s-item .val.ok { color: var(--green); }
+    .s-item .val.err { color: var(--red); }
+    .s-item .val.info { color: var(--cyan); }
+
+    .s-dot {
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
-      background: var(--neon-green);
-      box-shadow: 0 0 5px var(--neon-green);
-      animation: pulse 2s ease-in-out infinite;
+      background: var(--green);
+      box-shadow: 0 0 5px var(--green);
     }
 
-    .status-bar .dot.error {
-      background: var(--neon-pink);
-      box-shadow: 0 0 5px var(--neon-pink);
+    .s-dot.err {
+      background: var(--red);
+      box-shadow: 0 0 5px var(--red);
+    }
+
+    .s-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--bg3);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 8px 22px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      z-index: 1000;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== GLOW LINE ACCENTS ===== */
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, var(--amber), transparent);
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>X-JSON</h1>
-  <span class="subtitle">SYS:: <span>ONLINE</span></span>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="26" height="26" rx="2" stroke="#ffb347" stroke-width="1.5" fill="none"/>
+        <rect x="5" y="7" width="8" height="2" rx="1" fill="#ffb347" opacity="0.8"/>
+        <rect x="5" y="12" width="18" height="2" rx="1" fill="#ffb347" opacity="0.5"/>
+        <rect x="5" y="17" width="14" height="2" rx="1" fill="#ffb347" opacity="0.3"/>
+        <rect x="19" y="7" width="4" height="12" rx="1" fill="#00d4ff" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="logo-text">X-JSON <span>// TERMINAL</span></div>
+  </div>
+  <div class="header-meta">
+    <div class="badge">SYSTEM READY</div>
+  </div>
 </header>
 
 <div class="toolbar">
-  <button class="btn-pink" onclick="format()">▶ FORMAT</button>
-  <button class="btn-cyan" onclick="minify()">⬡ MINIFY</button>
-  <button class="btn-green" onclick="copyOutput()">◈ COPY</button>
-  <button onclick="clearAll()">◇ CLEAR</button>
+  <button class="toolbar-btn primary" onclick="format()">
+    <span class="icon">▶</span> FORMAT
+  </button>
+  <button class="toolbar-btn" onclick="minify()">
+    <span class="icon">⬡</span> MINIFY
+  </button>
+  <button class="toolbar-btn" onclick="copyOutput()">
+    <span class="icon">◈</span> COPY
+  </button>
+  <button class="toolbar-btn" onclick="clearAll()">
+    <span class="icon">◇</span> CLEAR
+  </button>
+  <div class="divider-v"></div>
+  <button class="toolbar-btn" onclick="toggleTheme()">
+    <span class="icon">☾</span> THEME
+  </button>
   <div class="spacer"></div>
-  <span class="hint">paste json input → get formatted output</span>
+  <span class="toolbar-hint">paste json <span class="hl">→</span> get beautified output</span>
 </div>
 
 <div class="main">
   <div class="panel">
-    <div class="panel-header">INPUT <span class="size" id="input-size">0 B</span></div>
-    <textarea id="input" placeholder="// paste your json here..."></textarea>
+    <div class="panel-header">
+      <span class="tag">INPUT</span>
+      <span class="size-tag" id="input-size">0 B</span>
+    </div>
+    <textarea id="input" placeholder="// paste your json here...&#10;// or type directly and watch live formatting" spellcheck="false"></textarea>
   </div>
-  <div class="divider"></div>
+  <div class="panel-divider"></div>
   <div class="panel">
-    <div class="panel-header">OUTPUT <span class="size" id="output-size">0 B</span></div>
+    <div class="panel-header">
+      <span class="tag">OUTPUT</span>
+      <span class="size-tag" id="output-size">0 B</span>
+    </div>
     <div id="output"></div>
   </div>
 </div>
 
 <div class="status-bar">
-  <div class="item"><div class="dot" id="status-dot"></div><span id="status-text">READY</span></div>
-  <div class="item">LINES: <span id="line-count">0</span></div>
-  <div class="item">CHARS: <span id="char-count">0</span></div>
-  <div class="item">DEPTH: <span id="depth">0</span></div>
+  <div class="s-item">
+    <div class="s-dot" id="status-dot"></div>
+    <span class="val" id="status-text">READY</span>
+  </div>
+  <div class="s-item"><span class="lbl">CHARS</span> <span class="val" id="char-count">0</span></div>
+  <div class="s-item"><span class="lbl">LINES</span> <span class="val" id="line-count">0</span></div>
+  <div class="s-item"><span class="lbl">DEPTH</span> <span class="val" id="depth">0</span></div>
+  <div class="s-right">
+    <div class="s-item"><span class="lbl">ENGINE</span> <span class="val info">NATIVE</span></div>
+    <div class="s-item"><span class="lbl">THEME</span> <span class="val" id="theme-label">AMBER</span></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-  const input = document.getElementById('input');
-  const output = document.getElementById('output');
-  const statusDot = document.getElementById('status-dot');
-  const statusText = document.getElementById('status-text');
-  const inputSize = document.getElementById('input-size');
-  const outputSize = document.getElementById('output-size');
-  const lineCount = document.getElementById('line-count');
-  const charCount = document.getElementById('char-count');
-  const depth = document.getElementById('depth');
+  const $ = id => document.getElementById(id);
+  const inputEl = $('input');
+  const outputEl = $('output');
+  const statusDot = $('status-dot');
+  const statusText = $('status-text');
+  const inputSize = $('input-size');
+  const outputSize = $('output-size');
+  const charCount = $('char-count');
+  const lineCount = $('line-count');
+  const depthEl = $('depth');
+  const themeLabel = $('theme-label');
 
-  let debounceTimer;
+  const THEMES = [
+    { name: 'AMBER',   key: '--amber',   accent: '#ffb347', bg: '#080c10' },
+    { name: 'CYAN',    key: '--cyan',    accent: '#00d4ff', bg: '#080c10' },
+    { name: 'GREEN',   key: '--green',   accent: '#39d353', bg: '#080c10' },
+    { name: 'PURPLE',  key: '--purple',  accent: '#b06aff', bg: '#080c10' },
+  ];
+  let themeIdx = 0;
 
-  input.addEventListener('input', () => {
+  let debounce;
+
+  inputEl.addEventListener('input', () => {
     updateStats();
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(format, 250);
+    clearTimeout(debounce);
+    debounce = setTimeout(format, 250);
   });
 
   function updateStats() {
-    const val = input.value;
-    inputSize.textContent = formatBytes(new Blob([val]).size);
+    const val = inputEl.value;
+    inputSize.textContent = fbytes(new Blob([val]).size);
     charCount.textContent = val.length;
     lineCount.textContent = val ? val.split('\n').length : 0;
   }
 
-  function formatBytes(b) {
+  function fbytes(b) {
     if (b === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB'];
-    const i = Math.floor(Math.log(b) / Math.log(k));
-    return parseFloat((b / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    const k = 1024, sizes = ['B', 'KB', 'MB'];
+    return parseFloat((b / Math.pow(k, Math.floor(Math.log(b) / Math.log(k)))).toFixed(1)) + ' ' + sizes[Math.floor(Math.log(b) / Math.log(k))];
   }
 
   function getDepth(obj, d = 0) {
@@ -476,94 +575,99 @@
   }
 
   function format() {
-    const val = input.value.trim();
+    const val = inputEl.value.trim();
     if (!val) {
-      output.textContent = '';
-      statusDot.className = 'dot';
-      statusText.textContent = 'READY';
+      outputEl.textContent = '';
+      setStatus('READY', false);
       outputSize.textContent = '0 B';
-      depth.textContent = '0';
+      depthEl.textContent = '0';
       return;
     }
-
     try {
       const parsed = JSON.parse(val);
-      const formatted = JSON.stringify(parsed, null, 2);
-      output.innerHTML = syntaxHighlight(formatted);
-      outputSize.textContent = formatBytes(new Blob([formatted]).size);
-      depth.textContent = getDepth(parsed);
-      statusDot.className = 'dot';
-      statusText.textContent = 'VALID';
+      const beautified = JSON.stringify(parsed, null, 2);
+      outputEl.innerHTML = highlight(beautified);
+      outputSize.textContent = fbytes(new Blob([beautified]).size);
+      depthEl.textContent = getDepth(parsed);
+      setStatus('VALID', false);
     } catch (e) {
-      output.innerHTML = `<div class="error">${e.message}</div>`;
-      statusDot.className = 'dot error';
-      statusText.textContent = 'ERROR';
+      outputEl.innerHTML = `<div class="json-error"><span class="err-label">ERR</span>${e.message}</div>`;
+      setStatus('ERROR', true);
       outputSize.textContent = '0 B';
-      depth.textContent = '?';
+      depthEl.textContent = '—';
     }
   }
 
   function minify() {
-    const val = input.value.trim();
+    const val = inputEl.value.trim();
     if (!val) return;
     try {
       const parsed = JSON.parse(val);
       const minified = JSON.stringify(parsed);
-      output.textContent = minified;
-      outputSize.textContent = formatBytes(new Blob([minified]).size);
-      statusDot.className = 'dot';
-      statusText.textContent = 'MINIFIED';
-      depth.textContent = getDepth(parsed);
+      outputEl.textContent = minified;
+      outputSize.textContent = fbytes(new Blob([minified]).size);
+      depthEl.textContent = getDepth(parsed);
+      setStatus('MINIFIED', false);
     } catch (e) {
-      output.innerHTML = `<div class="error">${e.message}</div>`;
-      statusDot.className = 'dot error';
-      statusText.textContent = 'ERROR';
+      outputEl.innerHTML = `<div class="json-error"><span class="err-label">ERR</span>${e.message}</div>`;
+      setStatus('ERROR', true);
     }
   }
 
   function copyOutput() {
-    const text = output.textContent;
+    const text = outputEl.textContent;
     if (!text) return;
-    navigator.clipboard.writeText(text).then(() => {
-      showToast('COPIED TO CLIPBOARD');
-    });
+    navigator.clipboard.writeText(text).then(() => toast('COPIED TO CLIPBOARD'));
   }
 
   function clearAll() {
-    input.value = '';
-    output.textContent = '';
-    statusDot.className = 'dot';
-    statusText.textContent = 'READY';
+    inputEl.value = '';
+    outputEl.textContent = '';
+    setStatus('READY', false);
     outputSize.textContent = '0 B';
     inputSize.textContent = '0 B';
-    lineCount.textContent = '0';
     charCount.textContent = '0';
-    depth.textContent = '0';
-    input.focus();
+    lineCount.textContent = '0';
+    depthEl.textContent = '0';
+    inputEl.focus();
   }
 
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 1800);
+  function toggleTheme() {
+    themeIdx = (themeIdx + 1) % THEMES.length;
+    const t = THEMES[themeIdx];
+    themeLabel.textContent = t.name;
+    themeLabel.style.color = t.accent;
+    document.documentElement.style.setProperty('--amber', t.key === '--amber' ? t.accent : 'var(--amber)');
+    document.documentElement.style.setProperty('--cyan', t.key === '--cyan' ? t.accent : 'var(--cyan)');
+    document.documentElement.style.setProperty('--green', t.key === '--green' ? t.accent : 'var(--green)');
+    document.documentElement.style.setProperty('--amber', t.accent);
+    toast(`THEME: ${t.name}`);
+    format();
   }
 
-  function syntaxHighlight(json) {
+  function setStatus(text, isError) {
+    statusText.textContent = text;
+    statusText.className = 'val ' + (isError ? 'err' : 'ok');
+    statusDot.className = 's-dot' + (isError ? ' err' : '');
+  }
+
+  function toast(msg) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1600);
+  }
+
+  function highlight(json) {
     return json
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?)/g, (match) => {
-        if (/:$/.test(match)) {
-          return `<span class="json-key">${match.slice(0, -1)}</span>:`;
-        } else {
-          return `<span class="json-string">${match}</span>`;
-        }
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?)/g, m => {
+        if (/:$/.test(m)) return `<span class="jk">${m.slice(0,-1)}</span>:`;
+        return `<span class="js">${m}</span>`;
       })
-      .replace(/\b(true|false)\b/g, '<span class="json-boolean">$1</span>')
-      .replace(/\bnull\b/g, '<span class="json-null">null</span>')
-      .replace(/\b(-?\d+\.?\d*([eE][+-]?\d+)?)\b/g, '<span class="json-number">$1</span>');
+      .replace(/\b(true|false)\b/g, '<span class="jb">$1</span>')
+      .replace(/\bnull\b/g, '<span class="jnull">null</span>')
+      .replace(/\b(-?\d+\.?\d*(?:[eE][+-]?\d+)?)\b/g, '<span class="jn">$1</span>');
   }
 </script>
 
